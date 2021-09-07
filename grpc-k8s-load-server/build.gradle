@@ -1,5 +1,5 @@
 plugins {
-    id 'com.palantir.docker' version '0.20.1'
+    id 'com.palantir.docker' version '0.28.0'
     id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
@@ -34,3 +34,5 @@ docker {
     buildArgs([VERSION: project.version])
     noCache true
 }
+
+tasks.compileJava.finalizedBy(tasks.dockerTag)

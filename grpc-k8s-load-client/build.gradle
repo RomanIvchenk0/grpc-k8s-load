@@ -28,7 +28,7 @@ artifacts {
 
 docker {
     name "r0mahat/${project.name}:${project.version}"
-    tag 'myRepo', 'latest'
+    tags 'latest'
     dockerfile file("Dockerfile")
     files tasks.shadowJar.outputs, 'grpc-k8s-load.yml', 'docker-entrypoint.sh'
     buildArgs([VERSION: project.version])
