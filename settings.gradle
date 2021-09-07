@@ -1,0 +1,5 @@
+rootProject.name = 'grpc-k8s-load'
+include 'grpc-k8s-load-server'
+include 'grpc-k8s-load-client'
+include 'grpc-k8s-load-api'
+

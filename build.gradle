@@ -1,0 +1,59 @@
+allprojects {
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'jacoco'
+    apply plugin: 'project-report'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    compileJava.options.encoding = 'UTF-8'
+
+    group = 'com.github.romahat'
+
+    ext {
+        grpcVersion = '1.40.0'
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        from sourceSets.main.allSource
+        archiveClassifier.set('sources')
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        from javadoc.destinationDir
+        archiveClassifier.set('javadoc')
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+
+    test {
+        defaultCharacterEncoding = "UTF-8"
+        testLogging {
+            displayGranularity 1
+            showStackTraces = true
+            exceptionFormat = 'full'
+            events "STARTED", "PASSED", "FAILED", "SKIPPED"
+        }
+    }
+
+    repositories {
+        maven { // The google mirror is less flaky than mavenCentral()
+            url "https://maven-central.storage-download.googleapis.com/maven2/"
+        }
+        mavenCentral()
+        mavenLocal()
+    }
+
+    jacoco {
+        toolVersion("0.7.9")
+    }
+}

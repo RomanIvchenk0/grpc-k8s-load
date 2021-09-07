@@ -1,0 +1,34 @@
+#logging:
+#  level: INFO
+#  appenders:
+#    - type: console
+#      layout:
+#        type: json
+#        timestampFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+#        prettyPrint: false
+#        appendLineSeparator: true
+#        includes: [timestamp, threadName, level, loggerName, message, exception]
+#        customFieldNames:
+#          timestamp: "@timestamp"
+#          thread: thread_name
+#          logger: logger_name
+#        additionalFields:
+#          "@version": "1"
+#      threshold: INFO
+#      target: stdout
+#  loggers:
+#    "com.github.romahat": INFO
+
+#server:
+#  requestLog:
+#    appenders:
+#      - type: console
+#        layout:
+#          type: access-json
+#          additionalFields:
+#            service-name: "grpc-k8s-load"
+
+grpcServer:
+  port: 50051
+  shutdownPeriod: 10 seconds
+  maxConnectionAgeSeconds: 7200

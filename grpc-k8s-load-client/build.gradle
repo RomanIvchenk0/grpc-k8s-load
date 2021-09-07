@@ -1,0 +1,38 @@
+plugins {
+    id 'com.palantir.docker' version '0.28.0'
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+}
+
+dependencies {
+    implementation(project(":grpc-k8s-load-api"))
+    implementation("io.grpc:grpc-netty-shaded:${grpcVersion}")
+    implementation 'io.dropwizard:dropwizard-core:2.0.24'
+    implementation 'io.dropwizard:dropwizard-json-logging:2.0.24'
+
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'com.github.romahat.load.App',
+                'Implementation-Title': "gRPC load test for k8s",
+                'Implementation-Version': project.version,
+                'Build-Time': new Date().getDateTimeString()
+    }
+    classifier('component')
+}
+
+artifacts {
+    archives jar
+    archives shadowJar
+}
+
+docker {
+    name "r0mahat/${project.name}:${project.version}"
+    tag 'myRepo', 'latest'
+    dockerfile file("Dockerfile")
+    files tasks.shadowJar.outputs, 'grpc-k8s-load.yml', 'docker-entrypoint.sh'
+    buildArgs([VERSION: project.version])
+    noCache true
+}
+
+tasks.compileJava.finalizedBy(tasks.dockerTag)

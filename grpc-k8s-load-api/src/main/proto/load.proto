@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.github.romahat.load";
+option java_outer_classname = "LoadProto";
+
+service Load {
+  rpc Load(Parameters) returns (Reply) {}
+}
+
+message Parameters {
+  int32 iterationCount = 1;
+  int32 iterationLength = 2;
+}
+
+message Reply {
+  string message = 1;
+}
