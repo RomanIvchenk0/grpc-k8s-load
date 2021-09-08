@@ -9,7 +9,7 @@ import io.dropwizard.setup.Environment;
 public class App extends Application<AppConfig> {
 
     public static void main(String[] args) throws Exception {
-        new App().run("server", "/Users/roman.ivchenko/git/grpc-k8s-load/grpc-k8s-load-client/grpc-k8s-load.yml");
+        new App().run(args);
     }
 
     @Override
